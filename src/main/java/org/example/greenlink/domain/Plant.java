@@ -1,8 +1,6 @@
 package org.example.greenlink.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,11 +13,15 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Plant extends AuditingFields {
+    @Column(nullable = false)
     String name;
+    @Lob
     String description;
     String category;
+    @Enumerated(EnumType.STRING)
     DomainEnum.Difficulty difficulty;
     Long growthPeriodDays;
+    @Enumerated(EnumType.STRING)
     DomainEnum.lightPref lightPref;
     Long waterPrefMlPerDay;
     String imageUrl;

@@ -1,38 +1,430 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <!-- 스타일 -->
-    <link href="https://cdn.jsdelivr.net/npm/[email protected]/dist/quill.snow.css" rel="stylesheet" />
-    <!-- 스크립트 -->
-    <script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/quill.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenLink Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/greenlink/theme-portal.css">
 </head>
 <body>
-<h1>Home</h1>
+<div class="gl-shell gl-fade">
+    <header class="gl-topbar">
+        <div class="gl-brand">
+            <div class="gl-brand-mark">🌿</div>
+            <span>GreenLink</span>
+        </div>
+        <nav class="gl-nav">
+            <a href="/home" class="active">My Plants</a>
+            <a href="#dailyQuestCard">Quests</a>
+            <a href="#shopCard">Shop</a>
+            <a href="#communityCard">Community</a>
+        </nav>
+        <div class="gl-icons">
+            <button class="gl-icon-btn" title="알림">🔔</button>
+            <button class="gl-icon-btn" title="프로필" id="authButton">👤</button>
+            <button class="gl-btn alt" id="logoutBtn" style="display:none;" onclick="logout()">Logout</button>
+        </div>
+    </header>
 
-<div>
-    <h2>User</h2>
+    <section class="gl-grid gl-grid-main">
+        <aside class="gl-card">
+            <div class="gl-card-head">
+                <h2 class="gl-title">My Plants</h2>
+                <button class="gl-btn" onclick="showPlantGuide()">+</button>
+            </div>
+            <div id="plantList" class="gl-list"></div>
+        </aside>
 
-    <a href="/user/signup">Signup</a>
-    <br/>
+        <section class="gl-card">
+            <div class="gl-feature-image" id="featureImage"></div>
+            <div class="gl-feature-meta">
+                <div class="gl-card-head" style="margin:0;">
+                    <h2 class="gl-title" id="featurePlantName">대표 식물이 없습니다</h2>
+                    <span class="gl-pill" id="featurePlantState">Need Plant</span>
+                </div>
+                <div class="gl-progress"><span id="featureGrowth" style="width:0%"></span></div>
+                <div class="gl-metric-grid">
+                    <div class="gl-metric">
+                        <div class="gl-sub">Water</div>
+                        <div style="font-weight:800; margin:4px 0 8px;" id="waterText">-</div>
+                        <div class="gl-progress"><span id="waterBar" style="width:0%"></span></div>
+                    </div>
+                    <div class="gl-metric">
+                        <div class="gl-sub">Sunlight</div>
+                        <div style="font-weight:800; margin:4px 0 8px;" id="lightText">-</div>
+                        <div class="gl-progress"><span id="lightBar" style="width:0%; background:linear-gradient(90deg, #f3be37, #f2d66d);"></span></div>
+                    </div>
+                    <div class="gl-metric">
+                        <div class="gl-sub">Nutrients</div>
+                        <div style="font-weight:800; margin:4px 0 8px;" id="nutrientText">-</div>
+                        <div class="gl-progress"><span id="nutrientBar" style="width:0%; background:linear-gradient(90deg, #2f855a, #83c89b);"></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <a href="/user/login">Login</a>
-    <br/>
+        <aside class="gl-list" style="display:grid; gap:16px;">
+            <section class="gl-card" id="dailyQuestCard">
+                <div class="gl-card-head">
+                    <h2 class="gl-title">Daily Quests</h2>
+                    <button class="gl-icon-btn" style="width:34px;height:34px;">⋯</button>
+                </div>
+                <div id="dailyQuestList" class="gl-list"></div>
+            </section>
 
+            <section class="gl-card">
+                <div class="gl-card-head">
+                    <h2 class="gl-title">Achievement</h2>
+                    <button class="gl-icon-btn" style="width:34px;height:34px;">⋯</button>
+                </div>
+                <div id="achievementList" class="gl-list"></div>
+            </section>
+        </aside>
+    </section>
+
+    <section class="gl-grid gl-grid-secondary">
+        <section class="gl-card">
+            <div class="gl-card-head">
+                <h2 class="gl-title">Calendar</h2>
+                <div class="gl-sub" id="calendarTitle"></div>
+            </div>
+            <div id="calendarGrid" class="gl-calendar"></div>
+        </section>
+
+        <section class="gl-card" id="shopCard">
+            <div class="gl-card-head">
+                <h2 class="gl-title">Shop</h2>
+                <a href="#">More</a>
+            </div>
+            <div id="shopList" class="gl-shop-items"></div>
+        </section>
+
+        <section class="gl-card" id="communityCard">
+            <div class="gl-card-head">
+                <h2 class="gl-title">Community</h2>
+                <a href="#">More</a>
+            </div>
+            <div id="communityList" class="gl-list">
+                <div class="gl-row" style="grid-template-columns:1fr;">
+                    <strong>[Tip] 봄철 분갈이 체크리스트</strong>
+                    <div class="gl-sub">최근 2시간 전 업데이트</div>
+                </div>
+                <div class="gl-row" style="grid-template-columns:1fr;">
+                    <strong>[Q&A] 잎 끝 갈변 해결법</strong>
+                    <div class="gl-sub">댓글 24 · 좋아요 51</div>
+                </div>
+            </div>
+        </section>
+    </section>
 </div>
 
-<div>
-    <h2>Admin</h2>
+<script>
+const tokenKey = 'Authorization';
+const state = {
+    token: localStorage.getItem(tokenKey),
+    profile: null,
+    plants: [],
+    userQuests: [],
+    questDefs: [],
+    inventory: [],
+    attendDates: []
+};
 
-    <a href="/admin/index">Index</a>
-    <br/>
+function setAuthUI() {
+    const authBtn = document.getElementById('authButton');
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (state.token) {
+        authBtn.textContent = '✅';
+        authBtn.title = '로그인됨';
+        logoutBtn.style.display = 'inline-flex';
+    } else {
+        authBtn.textContent = '🔑';
+        authBtn.title = '로그인 페이지';
+        authBtn.onclick = () => location.href = '/user/login';
+        logoutBtn.style.display = 'none';
+    }
+}
 
-</div>
+async function logout() {
+    try {
+        if (state.token) {
+            await fetch('/api/auth', {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': state.token
+                }
+            });
+        }
+    } catch (e) {
+        // 로그아웃은 로컬 토큰 제거를 우선한다.
+    } finally {
+        localStorage.removeItem(tokenKey);
+        state.token = null;
+        location.href = '/user/login';
+    }
+}
 
+function showEmpty(container, message) {
+    container.innerHTML = `<div class="gl-empty">${message}</div>`;
+}
+
+async function request(url, auth = false, options = {}) {
+    const headers = Object.assign({}, options.headers || {}, {'Content-Type':'application/json'});
+    if (auth && state.token) headers['Authorization'] = state.token;
+    const res = await fetch(url, {...options, headers});
+    let json = null;
+    try { json = await res.json(); } catch (e) { json = null; }
+    return {ok: res.ok && json && json.success, status: res.status, body: json};
+}
+
+async function loadAll() {
+    const jobs = [request('/api/quests', false)];
+    if (state.token) {
+        jobs.push(request('/api/users/me', true));
+        jobs.push(request('/api/user-plants', true));
+        jobs.push(request('/api/user-quests', true));
+        jobs.push(request('/api/inventory', true));
+        const now = new Date();
+        jobs.push(request(`/api/attend?year=${now.getFullYear()}&month=${now.getMonth()+1}`, true));
+    }
+
+    const [questDefs, profile, plants, userQuests, inventory, attend] = await Promise.all(jobs);
+
+    state.questDefs = (questDefs && questDefs.ok && Array.isArray(questDefs.body.data)) ? questDefs.body.data : [];
+
+    if (state.token) {
+        if (profile && profile.status === 401) {
+            localStorage.removeItem(tokenKey);
+            state.token = null;
+            setAuthUI();
+            render();
+            return;
+        }
+        state.profile = profile && profile.ok ? profile.body.data : null;
+        state.plants = plants && plants.ok && Array.isArray(plants.body.data) ? plants.body.data : [];
+        state.userQuests = userQuests && userQuests.ok && Array.isArray(userQuests.body.data) ? userQuests.body.data : [];
+        state.inventory = inventory && inventory.ok && Array.isArray(inventory.body.data) ? inventory.body.data : [];
+        state.attendDates = attend && attend.ok && attend.body.data && Array.isArray(attend.body.data.dates) ? attend.body.data.dates : [];
+    }
+
+    render();
+}
+
+function renderPlants() {
+    const el = document.getElementById('plantList');
+    if (!state.token) return showEmpty(el, '로그인 후 내 식물 목록을 확인하세요.');
+    if (!state.plants.length) return showEmpty(el, '등록된 식물이 없습니다.\n첫 식물을 생성해 보세요.');
+
+    el.innerHTML = '';
+    state.plants.slice(0, 5).forEach((p, idx) => {
+        const name = p.nickname || (p.plant && p.plant.name) || 'Unnamed';
+        const status = p.status || 'GROWING';
+        const card = document.createElement('div');
+        card.className = 'gl-plant-item';
+        card.innerHTML = `
+            <div class="gl-plant-thumb">${idx % 2 === 0 ? '🪴' : '🌱'}</div>
+            <div>
+                <p class="gl-plant-name">${name}</p>
+                <div class="gl-sub">Lv.${Math.max(1, Math.round((idx + 1) * 1.2))} · ${status}</div>
+                <div class="gl-progress" style="margin-top:8px;"><span style="width:${Math.min(95, 25 + idx * 17)}%"></span></div>
+            </div>
+            <div style="font-size:22px;color:#839186;">›</div>
+        `;
+        el.appendChild(card);
+    });
+}
+
+function renderFeature() {
+    const plant = state.plants[0];
+    const nameEl = document.getElementById('featurePlantName');
+    const stateEl = document.getElementById('featurePlantState');
+
+    if (!state.token || !plant) {
+        nameEl.textContent = 'Sunflower';
+        stateEl.textContent = state.token ? '식물 데이터 없음' : '로그인 필요';
+        document.getElementById('featureGrowth').style.width = '28%';
+        document.getElementById('waterText').textContent = '-';
+        document.getElementById('lightText').textContent = '-';
+        document.getElementById('nutrientText').textContent = '-';
+        return;
+    }
+
+    const name = plant.nickname || (plant.plant && plant.plant.name) || 'My Plant';
+    nameEl.textContent = name;
+    stateEl.textContent = plant.status || 'GROWING';
+
+    const w = Math.max(0, Math.min(100, Math.round(plant.moisturePct || 55)));
+    const l = Math.max(0, Math.min(100, Math.round(plant.sunlightExposure || 60)));
+    const n = Math.max(0, Math.min(100, Math.round((plant.nutrientLevel || 1) * 35)));
+
+    document.getElementById('featureGrowth').style.width = `${Math.round((w + l + n) / 3)}%`;
+
+    document.getElementById('waterText').textContent = `${w}%`;
+    document.getElementById('lightText').textContent = l >= 60 ? 'Good' : `${l}%`;
+    document.getElementById('nutrientText').textContent = `${Math.max(1, Math.round(n / 33))}/3`;
+
+    document.getElementById('waterBar').style.width = `${w}%`;
+    document.getElementById('lightBar').style.width = `${l}%`;
+    document.getElementById('nutrientBar').style.width = `${n}%`;
+}
+
+function renderQuestCards() {
+    const dailyEl = document.getElementById('dailyQuestList');
+    const achEl = document.getElementById('achievementList');
+
+    if (!state.token) {
+        showEmpty(dailyEl, '로그인 후 퀘스트 진행도를 확인할 수 있습니다.');
+        showEmpty(achEl, '업적 데이터가 없습니다.');
+        return;
+    }
+
+    const defById = new Map((state.questDefs || []).map(q => [q.id, q]));
+    const merged = (state.userQuests || []).map(q => {
+        const def = defById.get(q.questId) || {};
+        return {
+            title: q.title || def.title || `Quest #${q.questId}`,
+            type: def.type || 'DAILY',
+            progress: Number(q.progress || 0),
+            targetValue: Number(q.targetValue || def.targetValue || 1),
+            state: q.state || 'ONGOING'
+        };
+    });
+
+    const daily = merged.filter(q => q.type === 'DAILY').slice(0, 3);
+    const achievements = merged.filter(q => q.type === 'ACHIEVEMENT').slice(0, 3);
+
+    if (!daily.length) {
+        showEmpty(dailyEl, '표시할 일일 퀘스트가 없습니다.');
+    } else {
+        dailyEl.innerHTML = '';
+        daily.forEach((q, idx) => {
+            const pct = Math.min(100, Math.round((q.progress / (q.targetValue || 1)) * 100));
+            const icon = idx === 0 ? '💧' : idx === 1 ? '☀️' : '🎵';
+            const row = document.createElement('div');
+            row.className = 'gl-row';
+            row.innerHTML = `
+                <div class="gl-plant-thumb" style="width:52px;height:52px;font-size:22px;">${icon}</div>
+                <div>
+                    <strong>${q.title}</strong>
+                    <div class="gl-progress" style="margin-top:8px;"><span style="width:${pct}%"></span></div>
+                </div>
+                <div style="font-weight:800;">${q.progress}/${q.targetValue}</div>
+            `;
+            dailyEl.appendChild(row);
+        });
+    }
+
+    if (!achievements.length) {
+        showEmpty(achEl, '표시할 업적이 없습니다.');
+    } else {
+        achEl.innerHTML = '';
+        achievements.forEach((q, idx) => {
+            const pct = Math.min(100, Math.round((q.progress / (q.targetValue || 1)) * 100));
+            const row = document.createElement('div');
+            row.className = 'gl-row';
+            row.innerHTML = `
+                <div class="gl-plant-thumb" style="width:52px;height:52px;font-size:22px;">${idx === 0 ? '🏆' : idx === 1 ? '🌿' : '✅'}</div>
+                <div>
+                    <strong>${q.title}</strong>
+                    <div class="gl-progress" style="margin-top:8px;"><span style="width:${pct}%; background:linear-gradient(90deg,#f3be37,#ebd568);"></span></div>
+                </div>
+                <div style="font-weight:800;">${q.progress}/${q.targetValue}</div>
+            `;
+            achEl.appendChild(row);
+        });
+    }
+}
+
+function renderShop() {
+    const el = document.getElementById('shopList');
+    if (!state.token) return showEmpty(el, '로그인하면 인벤토리 기반 추천 아이템을 보여줍니다.');
+    if (!state.inventory.length) return showEmpty(el, '인벤토리가 비어 있습니다. 퀘스트 보상을 수령해 보세요.');
+
+    el.innerHTML = '';
+    state.inventory.slice(0, 3).forEach((item, idx) => {
+        const card = document.createElement('article');
+        card.className = 'gl-shop-item';
+        card.innerHTML = `
+            <div class="gl-shop-thumb">${idx === 0 ? '🪵' : idx === 1 ? '🏡' : '🧪'}</div>
+            <strong>${item.name || item.code || 'Item'}</strong>
+            <div class="gl-sub">${item.type || 'ITEM'} · 보유 ${item.ownedCount || 0}</div>
+        `;
+        el.appendChild(card);
+    });
+}
+
+function renderCalendar() {
+    const box = document.getElementById('calendarGrid');
+    const title = document.getElementById('calendarTitle');
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = now.getMonth();
+    title.textContent = `${y}.${String(m + 1).padStart(2, '0')}`;
+
+    const lastDay = new Date(y, m + 1, 0).getDate();
+    const firstWeekday = new Date(y, m, 1).getDay();
+
+    box.innerHTML = '';
+
+    const week = document.createElement('div');
+    week.className = 'gl-calendar-grid';
+    ['S','M','T','W','T','F','S'].forEach(w => {
+        const d = document.createElement('div');
+        d.className = 'gl-sub';
+        d.style.textAlign = 'center';
+        d.textContent = w;
+        week.appendChild(d);
+    });
+    box.appendChild(week);
+
+    const grid = document.createElement('div');
+    grid.className = 'gl-calendar-grid';
+
+    for (let i = 0; i < firstWeekday; i++) {
+        const blank = document.createElement('div');
+        grid.appendChild(blank);
+    }
+
+    const attendSet = new Set(state.attendDates || []);
+    for (let d = 1; d <= lastDay; d++) {
+        const dateStr = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const cell = document.createElement('div');
+        cell.className = 'gl-day';
+        if (attendSet.has(dateStr)) cell.classList.add('active');
+        else if (Math.random() > 0.78) cell.classList.add('dot');
+        cell.textContent = d;
+        grid.appendChild(cell);
+    }
+    box.appendChild(grid);
+}
+
+function renderAuthHint() {
+    if (state.token) return;
+    const community = document.getElementById('communityList');
+    const hint = document.createElement('div');
+    hint.className = 'gl-empty';
+    hint.innerHTML = '로그인하면 출석/퀘스트/인벤토리 데이터를 실시간으로 표시합니다.<br><br><a href="/user/login">로그인하러 가기</a>';
+    community.prepend(hint);
+}
+
+function showPlantGuide() {
+    alert('식물 추가는 /api/user-plants 엔드포인트로 생성 후 이 화면에서 확인할 수 있습니다.');
+}
+
+function render() {
+    setAuthUI();
+    renderPlants();
+    renderFeature();
+    renderQuestCards();
+    renderShop();
+    renderCalendar();
+    renderAuthHint();
+}
+
+loadAll();
+</script>
 </body>
 </html>

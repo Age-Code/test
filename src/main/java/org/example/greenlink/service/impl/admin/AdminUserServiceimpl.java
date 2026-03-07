@@ -28,7 +28,8 @@ public class AdminUserServiceimpl implements AdminUserService {
     public AdminUserDto.CreateResDto create(AdminUserDto.CreateSevDto createSevDto) {
         roleUserService.permit(RoleUserDto.PermitSevDto.builder().reqUserId(createSevDto.getReqUserId()).permission(permission).func(120).build());
 
-        AdminUserDto.CreateResDto res = adminUserRepository.save(createSevDto.toEntity()).toCreateResDto();
+        User saved = adminUserRepository.save(createSevDto.toEntity());
+        AdminUserDto.CreateResDto res = AdminUserDto.CreateResDto.builder().id(saved.getId()).build();
 
         return res;
     }

@@ -10,7 +10,7 @@ logging:
 spring:
   config:
     import:
-      - classpath:/yaml/application-keys.yaml
+      - optional:classpath:/yaml/application-keys.yaml
   #
   jpa:
     defer-datasource-initialization: true

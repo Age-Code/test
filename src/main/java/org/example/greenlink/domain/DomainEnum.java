@@ -16,4 +16,30 @@ public final class DomainEnum {
         MEDIUM,
         HIGH
     }
+
+    public enum UserPlantStatus {
+        GROWING,
+        HARVESTABLE,
+        HARVESTED,
+        FAILED
+    }
+
+    public enum ItemType {
+        POT,
+        DECORATION,
+        NUTRIENT,
+        TITLE
+    }
+
+    public enum QuestType {
+        DAILY,
+        WEEKLY,
+        ACHIEVEMENT
+    }
+
+    public enum UserQuestState {
+        ONGOING,
+        COMPLETED,
+        CLAIMED
+    }
 }

@@ -11,7 +11,11 @@ import java.time.LocalDate;
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 @Entity
+@Table(name = "attend", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_attend_user_date", columnNames = {"user_id", "attendDate"})
+})
 public class Attend extends AuditingFields {
+    @Column(nullable = false)
     LocalDate attendDate;
     Long streakAfter;
 

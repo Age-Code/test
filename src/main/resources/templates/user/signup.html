@@ -1,143 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="ko">
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-    <title>Signup</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="/sb-admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="/sb-admin/css/sb-admin-2.min.css" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenLink 회원가입</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/greenlink/theme-portal.css">
 </head>
+<body>
+<div class="gl-shell">
+    <div class="gl-auth-card gl-card gl-fade" style="width:min(720px, calc(100vw - 30px));">
+        <div class="gl-card-head">
+            <div class="gl-brand" style="font-size:42px;"><div class="gl-brand-mark" style="width:56px;height:56px;">🌿</div><span>GreenLink</span></div>
+            <a href="/home" class="gl-sub">대시보드 보기</a>
+        </div>
+        <h2 class="gl-title" style="margin-top:10px;">회원가입</h2>
+        <p class="gl-sub">가입 후 바로 식물 대시보드를 사용할 수 있습니다.</p>
 
-<body class="bg-gradient-primary">
-
-    <div class="container">
-
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-                    <div class="col-lg-7">
-                        <div class="p-5">
-
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account</h1>
-                            </div>
-
-                            <form class="user">
-                                <div class="form-group row">
-
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="user_username"
-                                            placeholder="Username">
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user" id="user_password"
-                                            placeholder="Password">
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="user_email"
-                                        placeholder="Email Address">
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user"
-                                            id="user_university" placeholder="University">
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user"
-                                            id="user_nickname" placeholder="Nickname">
-                                    </div>
-                                </div>
-
-                                <a onclick="signup()" class="btn btn-primary btn-user btn-block">Signup</a>
-
-                                <hr>
-
-                                <a href="/home" class="btn btn-google btn-user btn-block">
-                                    <i class="fab fa-google fa-fw"></i> Register with Google
-                                </a>
-
-                                <a href="/home" class="btn btn-facebook btn-user btn-block">
-                                    <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-                                </a>
-                            </form>
-
-                            <hr>
-
-                            <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
-
-                            <div class="text-center">
-                                <a class="small" href="/user/login">Already have an account? Login!</a>
-                            </div>
-                        </div>
-                    </div>
+        <form class="gl-form" onsubmit="event.preventDefault(); signup();">
+            <div class="gl-row-2">
+                <div>
+                    <label class="gl-sub" for="username">아이디</label>
+                    <input id="username" placeholder="4~20자 영문/숫자/_">
+                </div>
+                <div>
+                    <label class="gl-sub" for="nickname">닉네임</label>
+                    <input id="nickname" placeholder="1~20자">
                 </div>
             </div>
-        </div>
 
+            <div class="gl-row-2">
+                <div>
+                    <label class="gl-sub" for="email">이메일</label>
+                    <input id="email" type="email" placeholder="you@example.com">
+                </div>
+                <div>
+                    <label class="gl-sub" for="password">비밀번호</label>
+                    <input id="password" type="password" placeholder="8~64자">
+                </div>
+            </div>
+
+            <div class="gl-row-2">
+                <div>
+                    <label class="gl-sub" for="phoneNumber">전화번호 (선택)</label>
+                    <input id="phoneNumber" placeholder="010-1234-5678">
+                </div>
+                <div>
+                    <label class="gl-sub" for="address">주소 (선택)</label>
+                    <input id="address" placeholder="서울시 ...">
+                </div>
+            </div>
+
+            <button class="gl-btn" type="submit">회원가입</button>
+        </form>
+
+        <div id="status" class="gl-sub" style="margin-top:12px;"></div>
+        <div class="gl-sub" style="margin-top:14px;">이미 계정이 있나요? <a href="/user/login">로그인</a></div>
     </div>
+</div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/sb-admin/vendor/jquery/jquery.min.js"></script>
-    <script src="/sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+async function signup() {
+    const status = document.getElementById('status');
+    const payload = {
+        username: document.getElementById('username').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value.trim(),
+        nickname: document.getElementById('nickname').value.trim(),
+        phoneNumber: document.getElementById('phoneNumber').value.trim() || null,
+        address: document.getElementById('address').value.trim() || null
+    };
 
-    <!-- Core plugin JavaScript-->
-    <script src="/sb-admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    if (!payload.username || !payload.email || !payload.password || !payload.nickname) {
+        status.textContent = '필수 항목(아이디/이메일/비밀번호/닉네임)을 입력해 주세요.';
+        return;
+    }
 
-    <!-- Custom scripts for all pages-->
-    <script src="/sb-admin/js/sb-admin-2.min.js"></script>
+    status.textContent = '가입 요청 중...';
 
-    <!-- function -->
-    <script>
-        function signup() {
+    try {
+        const res = await fetch('/api/auth/signup', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        const json = await res.json();
 
-            let data = {
-                username: $('#user_username').val(),
-                password: $('#user_password').val(),
-                email: $('#user_email').val(),
-                university: $('#user_university').val(),
-                nickname: $('#user_nickname').val()
-            };
-
-            $.ajax({
-                url: "/api/user/signup",
-                method: "POST",
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(data),
-                success: (data, status, xhr)=>{
-                    alert(JSON.stringify(data));
-                },
-                error: (data, status, xhr)=>{
-                    alert(JSON.stringify(data));
-                }
-            });
+        if (!json.success) {
+            const details = json.error?.details?.fieldErrors;
+            if (Array.isArray(details) && details.length) {
+                throw new Error(details[0].message || json.error?.message || '가입 실패');
+            }
+            throw new Error(json.error?.message || '가입 실패');
         }
-    </script>
 
+        status.textContent = '회원가입 성공. 로그인 페이지로 이동합니다.';
+        setTimeout(() => location.href = '/user/login', 350);
+    } catch (e) {
+        status.textContent = e.message;
+    }
+}
+</script>
 </body>
-
 </html>
