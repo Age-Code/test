@@ -18,6 +18,7 @@
         </div>
         <nav class="gl-nav">
             <a href="/home" class="active">My Plants</a>
+            <a href="/plants">PlantDex</a>
             <a href="#dailyQuestCard">Quests</a>
             <a href="#shopCard">Shop</a>
             <a href="#communityCard">Community</a>
@@ -411,7 +412,7 @@ function renderAuthHint() {
 }
 
 function showPlantGuide() {
-    alert('식물 추가는 /api/user-plants 엔드포인트로 생성 후 이 화면에서 확인할 수 있습니다.');
+    location.href = '/plants';
 }
 
 function render() {
